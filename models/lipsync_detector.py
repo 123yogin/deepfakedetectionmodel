@@ -50,19 +50,22 @@ class LipSyncDetector:
         try:
             # Always create model architecture
             # If weights exist, they'll be loaded; otherwise use untrained model
-            self.model = self._load_syncnet(model_path if (model_path and os.path.exists(model_path)) else None)
+            self.model, weights_loaded = self._load_syncnet(model_path if (model_path and os.path.exists(model_path)) else None)
             
             # Verify model was created
             if self.model is None:
                 raise RuntimeError("Failed to create SyncNet model architecture")
             
-            # Check if weights were actually loaded
-            if model_path and os.path.exists(model_path):
-                self.model_loaded = True
+            # Set model_loaded based on actual successful weight loading
+            self.model_loaded = weights_loaded
+            
+            if weights_loaded:
                 print(f"[OK] Loaded trained SyncNet model from {model_path}")
             else:
-                self.model_loaded = False
-                print(f"[WARNING] SyncNet weights not found at {model_path}")
+                if model_path and os.path.exists(model_path):
+                    print(f"[WARNING] SyncNet weights found but failed to load from {model_path}")
+                else:
+                    print(f"[WARNING] SyncNet weights not found at {model_path}")
                 print(f"[INFO] Using untrained SyncNet architecture (will provide basic variation)")
                 print(f"[INFO] Model created successfully: {type(self.model).__name__}")
                 print(f"[INFO] To get accurate lip-sync predictions:")
@@ -97,7 +100,7 @@ class LipSyncDetector:
                 self.model = None
                 self.model_loaded = False
     
-    def _load_syncnet(self, model_path: Optional[str] = None) -> nn.Module:
+    def _load_syncnet(self, model_path: Optional[str] = None) -> tuple:
         """
         Load SyncNet model from weights file.
         
@@ -105,10 +108,11 @@ class LipSyncDetector:
             model_path: Optional path to SyncNet weights. If None, creates untrained model.
             
         Returns:
-            Loaded SyncNet model
+            Tuple of (Loaded SyncNet model, weights_loaded_successfully)
         """
         # Create model architecture
         model = SimpleSyncNet(audio_feature_dim=13, visual_feature_dim=512)
+        weights_loaded = False
         
         # Try to load weights if path provided and file exists
         if model_path and os.path.exists(model_path):
@@ -129,9 +133,14 @@ class LipSyncDetector:
                         state_dict = state_dict['state_dict']
                     
                     # Load weights (strict=False allows partial loading)
-                    model.load_state_dict(state_dict, strict=False)
-                    print(f"[OK] Loaded SyncNet weights from {model_path}")
-                    print(f"     {msg}")
+                    try:
+                        model.load_state_dict(state_dict, strict=False)
+                        weights_loaded = True
+                        print(f"[OK] Loaded SyncNet weights from {model_path}")
+                        print(f"     {msg}")
+                    except Exception as load_error:
+                        print(f"[WARNING] Error loading weights into model: {load_error}")
+                        print(f"[INFO] Using untrained SyncNet architecture")
             except Exception as e:
                 print(f"[WARNING] Could not load weights: {e}")
                 print(f"[INFO] Using untrained SyncNet architecture (will need training)")
@@ -153,7 +162,7 @@ class LipSyncDetector:
         # Performance flags
         self.use_mixed_precision = torch.cuda.is_available() and self.device.type == 'cuda'
         
-        return model
+        return model, weights_loaded
     
     def extract_audio(self, video_path: str, out_wav: str) -> None:
         """
@@ -428,4 +437,5 @@ class LipSyncDetector:
             print(f"[OK] LipSync model compiled with TorchScript")
         except Exception as e:
             print(f"[WARNING] TorchScript compilation failed: {e}")
+
 

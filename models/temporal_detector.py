@@ -49,15 +49,18 @@ class TemporalDetector:
         try:
             # Always create model architecture
             # If weights exist, they'll be loaded; otherwise use untrained model
-            self.model = self._load_3d_model(model_path if (model_path and os.path.exists(model_path)) else None)
+            self.model, weights_loaded = self._load_3d_model(model_path if (model_path and os.path.exists(model_path)) else None)
             
-            # Check if weights were actually loaded
-            if model_path and os.path.exists(model_path):
-                self.model_loaded = True
+            # Set model_loaded based on actual successful weight loading
+            self.model_loaded = weights_loaded
+            
+            if weights_loaded:
                 print(f"[OK] Loaded trained temporal 3D-CNN model from {model_path}")
             else:
-                self.model_loaded = False
-                print(f"[WARNING] Temporal model weights not found at {model_path}")
+                if model_path and os.path.exists(model_path):
+                    print(f"[WARNING] Temporal model weights found but failed to load from {model_path}")
+                else:
+                    print(f"[WARNING] Temporal model weights not found at {model_path}")
                 print(f"[WARNING] Using untrained 3D-CNN architecture (predictions will be unreliable)")
                 print(f"[INFO] To get accurate temporal predictions:")
                 print(f"  1. Train or download 3D-CNN weights (I3D, 3D-ResNet)")
@@ -87,7 +90,7 @@ class TemporalDetector:
         self.use_mixed_precision = torch.cuda.is_available() and self.device.type == 'cuda'
         self.batch_size = 4  # Default batch size for clip processing
     
-    def _load_3d_model(self, model_path: Optional[str] = None) -> nn.Module:
+    def _load_3d_model(self, model_path: Optional[str] = None) -> tuple:
         """
         Load 3D-CNN model from weights file.
         
@@ -95,10 +98,11 @@ class TemporalDetector:
             model_path: Optional path to model weights. If None, creates untrained model.
             
         Returns:
-            Loaded 3D-CNN model
+            Tuple of (Loaded 3D-CNN model, weights_loaded_successfully)
         """
         # Create model architecture
         model = Simple3DCNN(num_classes=2, input_channels=3)
+        weights_loaded = False
         
         # Try to load weights if path provided and file exists
         if model_path and os.path.exists(model_path):
@@ -119,9 +123,14 @@ class TemporalDetector:
                         state_dict = state_dict['state_dict']
                     
                     # Load weights (strict=False allows partial loading)
-                    model.load_state_dict(state_dict, strict=False)
-                    print(f"[OK] Loaded 3D-CNN weights from {model_path}")
-                    print(f"     {msg}")
+                    try:
+                        model.load_state_dict(state_dict, strict=False)
+                        weights_loaded = True
+                        print(f"[OK] Loaded 3D-CNN weights from {model_path}")
+                        print(f"     {msg}")
+                    except Exception as load_error:
+                        print(f"[WARNING] Error loading weights into model: {load_error}")
+                        print(f"[INFO] Using untrained 3D-CNN architecture")
             except Exception as e:
                 print(f"[WARNING] Could not load weights: {e}")
                 print(f"[INFO] Using untrained 3D-CNN architecture (will need training)")
@@ -132,7 +141,7 @@ class TemporalDetector:
         
         model = model.to(self.device)
         model.eval()
-        return model
+        return model, weights_loaded
     
     def predict_clip(self, frames: List[Image.Image]) -> float:
         """
@@ -437,4 +446,5 @@ class TemporalDetector:
             print(f"[OK] Temporal model compiled with TorchScript")
         except Exception as e:
             print(f"[WARNING] TorchScript compilation failed: {e}")
+
 
