@@ -98,10 +98,10 @@ def extract_mouth_frames(faces_dir: str, output_dir: str) -> int:
             # Crop mouth region
             mouth_img = crop_mouth_from_face(face_img, mtcnn)
             
-            # Save mouth crop
+            # Save mouth crop (normalize path for Windows)
             mouth_count += 1
             mouth_filename = f"mouth_{mouth_count:04d}.jpg"
-            mouth_path = os.path.join(output_dir, mouth_filename)
+            mouth_path = os.path.normpath(os.path.join(output_dir, mouth_filename))
             mouth_img.save(mouth_path, 'JPEG', quality=95)
             
         except Exception as e:

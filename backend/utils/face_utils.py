@@ -74,10 +74,10 @@ def extract_faces_from_frames(frames_dir: str, output_dir: str) -> int:
                 # Crop the face
                 face_img = img.crop((x1, y1, x2, y2))
                 
-                # Save cropped face
+                # Save cropped face (normalize path for Windows)
                 face_count += 1
                 face_filename = f"face_{face_count:04d}.jpg"
-                face_path = os.path.join(output_dir, face_filename)
+                face_path = os.path.normpath(os.path.join(output_dir, face_filename))
                 face_img.save(face_path, 'JPEG', quality=95)
                 
                 # For MVP, only extract the first face per frame

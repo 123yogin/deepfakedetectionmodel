@@ -11,6 +11,7 @@ import torch
 import torch.nn as nn
 from scipy.signal import resample
 from scipy.io import wavfile
+from PIL import Image
 from backend.config.model_config import LIPSYNC_MODEL_PATH, FAIL_IF_NO_WEIGHTS
 from models.architectures import SimpleSyncNet
 from torchvision import transforms
@@ -166,14 +167,21 @@ class LipSyncDetector:
         # Ensure output directory exists
         Path(out_wav).parent.mkdir(parents=True, exist_ok=True)
         
+        # Normalize paths for Windows compatibility
+        video_path = os.path.normpath(video_path)
+        out_wav = os.path.normpath(out_wav)
+        # Convert to forward slashes for FFmpeg
+        video_path_ffmpeg = video_path.replace("\\", "/")
+        out_wav_ffmpeg = out_wav.replace("\\", "/")
+        
         # FFmpeg command to extract audio as 16kHz mono WAV
         command = [
             "ffmpeg",
-            "-i", video_path,
+            "-i", video_path_ffmpeg,
             "-ar", "16000",  # Sample rate: 16kHz
             "-ac", "1",      # Mono channel
             "-y",            # Overwrite output file
-            out_wav
+            out_wav_ffmpeg
         ]
         
         try:

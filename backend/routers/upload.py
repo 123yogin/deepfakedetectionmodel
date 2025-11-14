@@ -39,32 +39,69 @@ async def upload_video(file: UploadFile = File(...)) -> Dict[str, Any]:
         Dictionary with message, video path, frame count, face count, detections, and verdict
     """
     try:
+        print(f"[INFO] Starting video upload processing...")
+        print(f"[INFO] Original filename: {file.filename}")
+        
         # Read file content
         file_content = await file.read()
+        print(f"[INFO] File content read: {len(file_content)} bytes")
         
         # Save file with unique name
-        file_path = file_utils.save_uploaded_file(
-            file_content=file_content,
-            original_filename=file.filename or "video.mp4"
-        )
+        try:
+            file_path = file_utils.save_uploaded_file(
+                file_content=file_content,
+                original_filename=file.filename or "video.mp4"
+            )
+            print(f"[INFO] File saved to: {file_path}")
+        except Exception as save_error:
+            print(f"[ERROR] Failed to save file: {save_error}")
+            raise
         
         # Extract UUID from filename (filename format: <uuid>.<ext>)
         video_filename = Path(file_path).stem  # Gets filename without extension
-        frames_output_dir = os.path.join("storage", "frames", video_filename)
+        print(f"[INFO] Video filename (UUID): {video_filename}")
+        
+        # Use absolute paths to avoid Windows path issues
+        # Normalize paths for Windows compatibility
+        base_dir = os.path.abspath("storage")
+        frames_output_dir = os.path.normpath(os.path.join(base_dir, "frames", video_filename))
+        print(f"[INFO] Frames output directory: {frames_output_dir}")
+        print(f"[INFO] Frames path length: {len(frames_output_dir)} characters")
         
         # Extract frames (1 frame per second)
-        frame_count = video_utils.extract_frames(
-            video_path=file_path,
-            output_dir=frames_output_dir,
-            fps=1
-        )
+        try:
+            print(f"[INFO] Starting frame extraction...")
+            frame_count = video_utils.extract_frames(
+                video_path=file_path,
+                output_dir=frames_output_dir,
+                fps=1
+            )
+            print(f"[INFO] Extracted {frame_count} frames")
+        except Exception as frame_error:
+            print(f"[ERROR] Frame extraction failed: {frame_error}")
+            import traceback
+            traceback.print_exc()
+            raise
         
         # Extract faces from frames
-        faces_output_dir = os.path.join("storage", "faces", video_filename)
-        face_count = face_utils.extract_faces_from_frames(
-            frames_dir=frames_output_dir,
-            output_dir=faces_output_dir
-        )
+        faces_output_dir = os.path.normpath(os.path.join(base_dir, "faces", video_filename))
+        face_count = 0
+        try:
+            frame_files = list(Path(frames_output_dir).glob("frame_*.jpg"))
+            print(f"[INFO] Starting face extraction from {len(frame_files)} frames...")
+            if frame_files:
+                face_count = face_utils.extract_faces_from_frames(
+                    frames_dir=frames_output_dir,
+                    output_dir=faces_output_dir
+                )
+                print(f"[INFO] Extracted {face_count} faces")
+            else:
+                print(f"[WARNING] No frames found in {frames_output_dir}")
+        except Exception as face_error:
+            print(f"[ERROR] Face extraction failed: {face_error}")
+            import traceback
+            traceback.print_exc()
+            face_count = 0  # Continue with 0 faces
         
         # Run deepfake detection on each face (use cached model)
         detector = model_cache.get_cnn_detector()
@@ -72,7 +109,8 @@ async def upload_video(file: UploadFile = File(...)) -> Dict[str, Any]:
         
         # Compute frequency scores for all faces (use cached model)
         freq_detector = model_cache.get_frequency_detector()
-        frequency_debug_dir = os.path.join("results", video_filename, "frequency_maps")
+        results_dir = os.path.abspath("results")
+        frequency_debug_dir = os.path.normpath(os.path.join(results_dir, video_filename, "frequency_maps"))
         freq_scores_dict = {}
         
         if face_count > 0:
@@ -116,7 +154,7 @@ async def upload_video(file: UploadFile = File(...)) -> Dict[str, Any]:
             detections.sort(key=lambda x: x["fake_score"], reverse=True)
         
         # Extract mouth regions from faces for lip-sync analysis
-        mouth_output_dir = os.path.join("storage", "mouth", video_filename)
+        mouth_output_dir = os.path.normpath(os.path.join(base_dir, "mouth", video_filename))
         mouth_count = 0
         lip_sync_score = None
         
@@ -127,7 +165,7 @@ async def upload_video(file: UploadFile = File(...)) -> Dict[str, Any]:
             )
             
             # Extract audio from video
-            audio_output_path = os.path.join("storage", "audio", f"{video_filename}.wav")
+            audio_output_path = os.path.normpath(os.path.join(base_dir, "audio", f"{video_filename}.wav"))
             try:
                 print(f"[INFO] Initializing LipSync detector...")
                 lipsync_detector = model_cache.get_lipsync_detector()
@@ -273,10 +311,21 @@ async def upload_video(file: UploadFile = File(...)) -> Dict[str, Any]:
         result["verdict"] = verdict_result
         
         # Save updated result with ensemble verdict to JSON
-        result_file = Path("results") / f"{job_id}.json"
+        result_file = Path(results_dir) / f"{job_id}.json"
         result_file.parent.mkdir(parents=True, exist_ok=True)
-        with open(result_file, 'w', encoding='utf-8') as f:
-            json.dump(result, f, indent=2, ensure_ascii=False)
+        try:
+            with open(result_file, 'w', encoding='utf-8') as f:
+                json.dump(result, f, indent=2, ensure_ascii=False)
+        except OSError as e:
+            if e.errno == 22:
+                print(f"[WARNING] Could not save result file due to path length. Using shorter path.")
+                # Try with shorter filename
+                short_job_id = job_id[:16] if len(job_id) > 16 else job_id
+                result_file = Path(results_dir) / f"{short_job_id}.json"
+                with open(result_file, 'w', encoding='utf-8') as f:
+                    json.dump(result, f, indent=2, ensure_ascii=False)
+            else:
+                raise
         
         # Return result with all information
         response = {
@@ -297,6 +346,38 @@ async def upload_video(file: UploadFile = File(...)) -> Dict[str, Any]:
             response["detected_techniques"] = technique_report
         
         return response
+    except OSError as e:
+        # Handle Windows-specific path errors
+        import traceback
+        error_msg = str(e)
+        error_traceback = traceback.format_exc()
+        print(f"[ERROR] Upload video error (OSError): {error_msg}")
+        print(f"[ERROR] Error number: {e.errno}")
+        print(f"[ERROR] Traceback:\n{error_traceback}")
+        
+        # Provide more helpful error message
+        if e.errno == 22:  # Invalid argument
+            detail_msg = (
+                f"Invalid file path error. This might be due to:\n"
+                f"1. Path too long (Windows 260 character limit)\n"
+                f"2. Invalid characters in filename\n"
+                f"3. File path issues\n"
+                f"Original error: {error_msg}"
+            )
+        else:
+            detail_msg = f"File system error: {error_msg}"
+        
+        # Return error with CORS headers
+        from fastapi.responses import JSONResponse
+        return JSONResponse(
+            status_code=500,
+            content={"error": detail_msg, "type": "OSError", "errno": e.errno},
+            headers={
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "*",
+                "Access-Control-Allow-Headers": "*",
+            }
+        )
     except Exception as e:
         import traceback
         error_msg = str(e)
@@ -304,9 +385,15 @@ async def upload_video(file: UploadFile = File(...)) -> Dict[str, Any]:
         print(f"[ERROR] Upload video error: {error_msg}")
         print(f"[ERROR] Traceback:\n{error_traceback}")
         
-        # Return a proper error response
-        raise HTTPException(
+        # Return error with CORS headers
+        from fastapi.responses import JSONResponse
+        return JSONResponse(
             status_code=500,
-            detail=f"Error processing video: {error_msg}. Check server logs for details."
+            content={"error": f"Error processing video: {error_msg}. Check server logs for details.", "type": type(e).__name__},
+            headers={
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "*",
+                "Access-Control-Allow-Headers": "*",
+            }
         )
 

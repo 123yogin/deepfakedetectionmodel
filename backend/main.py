@@ -1,8 +1,9 @@
 """
 Main FastAPI application entry point.
 """
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from backend.routers import upload, results
 
 
@@ -24,6 +25,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 
@@ -38,6 +40,63 @@ async def root():
     return {"message": "Deepfake Detection System API"}
 
 
+@app.get("/health")
+async def health_check():
+    """Health check endpoint."""
+    try:
+        from backend.utils.model_cache import model_cache
+        return {
+            "status": "healthy",
+            "models_initialized": model_cache._initialized
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e)
+        }
+
+
+@app.get("/test")
+async def test_endpoint():
+    """Simple test endpoint to verify server is working."""
+    return {
+        "status": "ok",
+        "message": "Server is running"
+    }
+
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    """Global exception handler to ensure CORS headers are always present."""
+    import traceback
+    error_traceback = traceback.format_exc()
+    error_msg = str(exc)
+    
+    print(f"\n{'='*60}")
+    print(f"[ERROR] Unhandled exception in {request.url.path}")
+    print(f"[ERROR] Exception type: {type(exc).__name__}")
+    print(f"[ERROR] Error message: {error_msg}")
+    print(f"[ERROR] Full traceback:")
+    print(error_traceback)
+    print(f"{'='*60}\n")
+    
+    # Return error with CORS headers
+    return JSONResponse(
+        status_code=500,
+        content={
+            "error": error_msg,
+            "type": type(exc).__name__,
+            "detail": "An unexpected error occurred. Check server console for full details.",
+            "path": str(request.url.path)
+        },
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "*",
+            "Access-Control-Allow-Headers": "*",
+        }
+    )
+
+
 @app.on_event("startup")
 async def startup_event():
     """Validate models on startup and show improvements."""
@@ -47,7 +106,7 @@ async def startup_event():
         from backend.utils.model_cache import model_cache
         
         print("\n" + "=" * 60)
-        print("Starting Deepfake Detection System - Production Mode")
+        print("Starting Deepfake Detection System")
         print("=" * 60)
         
         # Initialize model cache (pre-loads all models)

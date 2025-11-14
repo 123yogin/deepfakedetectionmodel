@@ -1,0 +1,250 @@
+{
+  "job_id": "2b750665",
+  "video_path": "C:\\Users\\yogin\\OneDrive\\Desktop\\hack\\storage\\uploads\\2b750665.mp4",
+  "frames": 4,
+  "faces": 4,
+  "detections": [
+    {
+      "face_file": "face_0004.jpg",
+      "frame": 4,
+      "fake_score": 0.5715,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0001.jpg",
+      "frame": 1,
+      "fake_score": 0.5706,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0003.jpg",
+      "frame": 3,
+      "fake_score": 0.5677,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0002.jpg",
+      "frame": 2,
+      "fake_score": 0.5652,
+      "freq_score": 0.8
+    }
+  ],
+  "aggregation": {
+    "total_faces": 4,
+    "max_score": 0.5715,
+    "mean_score": 0.56875,
+    "median_score": 0.5677,
+    "p90_score": 0.5652,
+    "count_above_0.5": 4,
+    "frequency_score": 0.8,
+    "lip_sync_score": 0.49939925670623775,
+    "temporal_mean": 0.5,
+    "temporal_max": 0.5
+  },
+  "verdict": {
+    "label": "LIKELY_MANIPULATED",
+    "confidence": 0.75,
+    "reason": [
+      "multiple_suspicious_faces"
+    ],
+    "final_score": 0.5492201634641057,
+    "final_label": "LIKELY_AUTHENTIC",
+    "raw_score": 0.5658401114940643
+  },
+  "report_meta": {
+    "timestamp": "2025-11-14T22:48:56.905047",
+    "model_versions": {
+      "xception": "v0.1",
+      "temporal": "v0.1",
+      "lipsync": "v0.1",
+      "frequency": "v0.1"
+    }
+  },
+  "abnormalities": {
+    "summary": {
+      "total_abnormalities": 4,
+      "high_severity_count": 4,
+      "medium_severity_count": 0,
+      "artifact_types_detected": [
+        "eye_artifacts"
+      ],
+      "artifact_counts": {
+        "eye_artifacts": 4
+      }
+    },
+    "spatial_artifacts": [
+      {
+        "type": "eye_artifacts",
+        "severity": "high",
+        "description": "Detected anomalies in eye region (score: 0.98). Unnatural eye shape, reflections, or alignment issues detected.",
+        "location": "eye_region",
+        "confidence": 0.9798506131549609,
+        "frame": 1
+      },
+      {
+        "type": "eye_artifacts",
+        "severity": "high",
+        "description": "Detected anomalies in eye region (score: 1.00). Unnatural eye shape, reflections, or alignment issues detected.",
+        "location": "eye_region",
+        "confidence": 1.0,
+        "frame": 2
+      },
+      {
+        "type": "eye_artifacts",
+        "severity": "high",
+        "description": "Detected anomalies in eye region (score: 1.00). Unnatural eye shape, reflections, or alignment issues detected.",
+        "location": "eye_region",
+        "confidence": 1.0,
+        "frame": 3
+      },
+      {
+        "type": "eye_artifacts",
+        "severity": "high",
+        "description": "Detected anomalies in eye region (score: 1.00). Unnatural eye shape, reflections, or alignment issues detected.",
+        "location": "eye_region",
+        "confidence": 1.0,
+        "frame": 4
+      }
+    ],
+    "temporal_abnormalities": [],
+    "audio_visual_abnormalities": [
+      {
+        "type": "moderate_lip_sync_mismatch",
+        "severity": "medium",
+        "description": "Moderate lip-sync mismatch detected (score: 0.50). Some inconsistencies between lip movements and audio.",
+        "confidence": 0.2006007432937622
+      }
+    ],
+    "detailed_findings": {
+      "spatial": [
+        {
+          "type": "eye_artifacts",
+          "severity": "high",
+          "description": "Detected anomalies in eye region (score: 0.98). Unnatural eye shape, reflections, or alignment issues detected.",
+          "location": "eye_region",
+          "confidence": 0.9798506131549609,
+          "frame": 1
+        },
+        {
+          "type": "eye_artifacts",
+          "severity": "high",
+          "description": "Detected anomalies in eye region (score: 1.00). Unnatural eye shape, reflections, or alignment issues detected.",
+          "location": "eye_region",
+          "confidence": 1.0,
+          "frame": 2
+        },
+        {
+          "type": "eye_artifacts",
+          "severity": "high",
+          "description": "Detected anomalies in eye region (score: 1.00). Unnatural eye shape, reflections, or alignment issues detected.",
+          "location": "eye_region",
+          "confidence": 1.0,
+          "frame": 3
+        },
+        {
+          "type": "eye_artifacts",
+          "severity": "high",
+          "description": "Detected anomalies in eye region (score: 1.00). Unnatural eye shape, reflections, or alignment issues detected.",
+          "location": "eye_region",
+          "confidence": 1.0,
+          "frame": 4
+        }
+      ],
+      "temporal": [],
+      "audio_visual": [
+        {
+          "type": "moderate_lip_sync_mismatch",
+          "severity": "medium",
+          "description": "Moderate lip-sync mismatch detected (score: 0.50). Some inconsistencies between lip movements and audio.",
+          "confidence": 0.2006007432937622
+        }
+      ]
+    }
+  },
+  "detected_techniques": {
+    "primary_technique": {
+      "technique_id": "first_order_motion",
+      "name": "First-Order Motion Model",
+      "confidence": 0.6666666666666666,
+      "description": "First-order motion model for face reenactment"
+    },
+    "all_techniques": [
+      {
+        "technique_id": "first_order_motion",
+        "name": "First-Order Motion Model",
+        "description": "First-order motion model for face reenactment",
+        "confidence": 0.6666666666666666,
+        "matching_indicators": [
+          "moderate_lip_sync_mismatch",
+          "eye_artifacts"
+        ],
+        "mathematical_basis": "Uses keypoint detection and motion transfer. Keypoints: K = {k₁, k₂, ..., kₙ}. Motion: M = K_driver - K_source. Warping: W(x, M) applies motion to source. Generator: G(x_source, M) = W(x_source, M) + residual. Common implementations: FOMM, Face2Face.",
+        "typical_artifacts": [
+          "Temporal inconsistencies from keypoint tracking errors",
+          "Eye region artifacts from motion transfer",
+          "Moderate lip-sync issues"
+        ]
+      },
+      {
+        "technique_id": "gan_based",
+        "name": "GAN-based Face Swap",
+        "description": "Generative Adversarial Network (GAN) based face swapping technique",
+        "confidence": 0.5333333333333333,
+        "matching_indicators": [
+          "high_frequency_artifacts"
+        ],
+        "mathematical_basis": "Uses generator-discriminator architecture. Generator learns mapping G: X→Y, discriminator D distinguishes real from fake. Training objective: min_G max_D V(D,G) = E[log D(x)] + E[log(1-D(G(z)))]. Common implementations: StyleGAN, StarGAN, FaceSwap-GAN.",
+        "typical_artifacts": [
+          "Blur artifacts at face boundaries due to generator's learned blending",
+          "Texture inconsistencies from adversarial training",
+          "High-frequency artifacts in frequency domain analysis"
+        ]
+      },
+      {
+        "technique_id": "neural_texture",
+        "name": "Neural Texture Synthesis",
+        "description": "Neural texture synthesis for face manipulation",
+        "confidence": 0.3333333333333333,
+        "matching_indicators": [
+          "high_frequency_artifacts"
+        ],
+        "mathematical_basis": "Uses neural texture fields: T(x,y) = f_θ(x,y). Texture mapping: I = T(UV_map). Optimization: min_θ ||I_target - T(UV_target)||². Common implementations: NeuralTextures, PIFu.",
+        "typical_artifacts": [
+          "Texture anomalies from neural synthesis",
+          "Blur from texture interpolation",
+          "High-frequency artifacts in synthesized regions"
+        ]
+      },
+      {
+        "technique_id": "face2face",
+        "name": "Face2Face",
+        "description": "Real-time face reenactment using expression transfer",
+        "confidence": 0.3333333333333333,
+        "matching_indicators": [
+          "eye_artifacts"
+        ],
+        "mathematical_basis": "Uses 3D face model and expression transfer. 3D model: M = (V, F) where V are vertices, F are faces. Expression: E = {e₁, e₂, ..., eₙ}. Transfer: M_target = M_source + ΔE. Rendering: I = R(M_target, P, L). Common implementations: Face2Face, FaceForensics.",
+        "typical_artifacts": [
+          "Severe lip-sync mismatches from expression transfer",
+          "Temporal flickering from frame-by-frame processing",
+          "Eye region artifacts from 3D model fitting"
+        ]
+      }
+    ],
+    "analysis": {
+      "total_techniques_identified": 4,
+      "highest_confidence": 0.6666666666666666,
+      "artifact_evidence": [
+        "high_frequency_artifacts",
+        "moderate_lip_sync_mismatch",
+        "eye_artifacts"
+      ]
+    },
+    "explanation": "Based on the analysis of detected artifacts, the video most likely uses **First-Order Motion Model** (confidence: 66.7%). \n\n**Key Evidence:**\n- Moderate Lip Sync Mismatch\n- Eye Artifacts\n\n**Mathematical Basis:**\nUses keypoint detection and motion transfer. Keypoints: K = {k₁, k₂, ..., kₙ}. Motion: M = K_driver - K_source. Warping: W(x, M) applies motion to source. Generator: G(x_source, M) = W(x_source, M) + residual. Common implementations: FOMM, Face2Face.",
+    "methodology": {
+      "approach": "Pattern-based technique identification using artifact signatures",
+      "indicators_analyzed": 1,
+      "techniques_considered": 6
+    }
+  }
+}
