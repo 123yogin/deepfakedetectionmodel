@@ -1,0 +1,338 @@
+{
+  "job_id": "5b1edef4-8079-4a54-8fc7-a26aed545697",
+  "video_path": "storage/uploads\\5b1edef4-8079-4a54-8fc7-a26aed545697.mp4",
+  "frames": 63,
+  "faces": 50,
+  "detections": [
+    {
+      "face_file": "face_0017.jpg",
+      "frame": 17,
+      "fake_score": 0.6304,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0037.jpg",
+      "frame": 37,
+      "fake_score": 0.6287,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0042.jpg",
+      "frame": 42,
+      "fake_score": 0.6285,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0032.jpg",
+      "frame": 32,
+      "fake_score": 0.6276,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0006.jpg",
+      "frame": 6,
+      "fake_score": 0.6273,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0019.jpg",
+      "frame": 19,
+      "fake_score": 0.6272,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0030.jpg",
+      "frame": 30,
+      "fake_score": 0.6271,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0041.jpg",
+      "frame": 41,
+      "fake_score": 0.6261,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0044.jpg",
+      "frame": 44,
+      "fake_score": 0.626,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0043.jpg",
+      "frame": 43,
+      "fake_score": 0.6259,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0036.jpg",
+      "frame": 36,
+      "fake_score": 0.6257,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0045.jpg",
+      "frame": 45,
+      "fake_score": 0.625,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0015.jpg",
+      "frame": 15,
+      "fake_score": 0.6249,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0018.jpg",
+      "frame": 18,
+      "fake_score": 0.6246,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0016.jpg",
+      "frame": 16,
+      "fake_score": 0.6245,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0022.jpg",
+      "frame": 22,
+      "fake_score": 0.6242,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0039.jpg",
+      "frame": 39,
+      "fake_score": 0.6239,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0031.jpg",
+      "frame": 31,
+      "fake_score": 0.6235,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0014.jpg",
+      "frame": 14,
+      "fake_score": 0.6231,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0020.jpg",
+      "frame": 20,
+      "fake_score": 0.6231,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0047.jpg",
+      "frame": 47,
+      "fake_score": 0.6231,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0009.jpg",
+      "frame": 9,
+      "fake_score": 0.623,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0033.jpg",
+      "frame": 33,
+      "fake_score": 0.623,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0038.jpg",
+      "frame": 38,
+      "fake_score": 0.623,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0048.jpg",
+      "frame": 48,
+      "fake_score": 0.6228,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0027.jpg",
+      "frame": 27,
+      "fake_score": 0.6226,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0035.jpg",
+      "frame": 35,
+      "fake_score": 0.6226,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0026.jpg",
+      "frame": 26,
+      "fake_score": 0.622,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0005.jpg",
+      "frame": 5,
+      "fake_score": 0.6216,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0029.jpg",
+      "frame": 29,
+      "fake_score": 0.6215,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0034.jpg",
+      "frame": 34,
+      "fake_score": 0.6215,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0011.jpg",
+      "frame": 11,
+      "fake_score": 0.6214,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0023.jpg",
+      "frame": 23,
+      "fake_score": 0.6214,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0025.jpg",
+      "frame": 25,
+      "fake_score": 0.6211,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0024.jpg",
+      "frame": 24,
+      "fake_score": 0.6207,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0028.jpg",
+      "frame": 28,
+      "fake_score": 0.6206,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0013.jpg",
+      "frame": 13,
+      "fake_score": 0.6204,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0021.jpg",
+      "frame": 21,
+      "fake_score": 0.6202,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0040.jpg",
+      "frame": 40,
+      "fake_score": 0.62,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0046.jpg",
+      "frame": 46,
+      "fake_score": 0.6195,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0008.jpg",
+      "frame": 8,
+      "fake_score": 0.6184,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0004.jpg",
+      "frame": 4,
+      "fake_score": 0.6182,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0012.jpg",
+      "frame": 12,
+      "fake_score": 0.6178,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0007.jpg",
+      "frame": 7,
+      "fake_score": 0.6176,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0050.jpg",
+      "frame": 50,
+      "fake_score": 0.6161,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0002.jpg",
+      "frame": 2,
+      "fake_score": 0.6155,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0003.jpg",
+      "frame": 3,
+      "fake_score": 0.6149,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0049.jpg",
+      "frame": 49,
+      "fake_score": 0.6146,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0001.jpg",
+      "frame": 1,
+      "fake_score": 0.6114,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0010.jpg",
+      "frame": 10,
+      "fake_score": 0.6054,
+      "freq_score": 0.8
+    }
+  ],
+  "aggregation": {
+    "total_faces": 50,
+    "max_score": 0.6304,
+    "mean_score": 0.622,
+    "median_score": 0.6227,
+    "p90_score": 0.6273,
+    "count_above_0.5": 50,
+    "frequency_score": 0.8,
+    "lip_sync_score": 0.504,
+    "temporal_mean": 0.5065,
+    "temporal_max": 0.5066
+  },
+  "verdict": {
+    "label": "INCONCLUSIVE",
+    "confidence": 0.6648,
+    "reason": [
+      "frequency_artifact",
+      "ambiguous_scores"
+    ],
+    "final_score": 0.6411,
+    "final_label": "LIKELY_AUTHENTIC",
+    "raw_score": 0.5803
+  },
+  "report_meta": {
+    "model_versions": {
+      "xception": "v0.1-placeholder"
+    },
+    "timestamp": "2025-11-14T17:22:45.757299",
+    "notes": "MVP run - ensemble not integrated yet"
+  }
+}

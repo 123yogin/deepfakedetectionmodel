@@ -1,0 +1,63 @@
+{
+  "job_id": "81791e0b-bdcc-4d11-b9cd-92112f010912",
+  "video_path": "storage/uploads\\81791e0b-bdcc-4d11-b9cd-92112f010912.mp4",
+  "frames": 4,
+  "faces": 4,
+  "detections": [
+    {
+      "face_file": "face_0003.jpg",
+      "frame": 3,
+      "fake_score": 0.5958,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0001.jpg",
+      "frame": 1,
+      "fake_score": 0.5956,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0004.jpg",
+      "frame": 4,
+      "fake_score": 0.5937,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0002.jpg",
+      "frame": 2,
+      "fake_score": 0.5925,
+      "freq_score": 0.8
+    }
+  ],
+  "aggregation": {
+    "total_faces": 4,
+    "max_score": 0.5958,
+    "mean_score": 0.5944,
+    "median_score": 0.5937,
+    "p90_score": 0.5925,
+    "count_above_0.5": 4,
+    "frequency_score": 0.8,
+    "lip_sync_score": 0.5054721176624297,
+    "temporal_mean": 0.5,
+    "temporal_max": 0.5
+  },
+  "verdict": {
+    "label": "LIKELY_MANIPULATED",
+    "confidence": 0.75,
+    "reason": [
+      "multiple_suspicious_faces"
+    ],
+    "final_score": 0.5764743407894326,
+    "final_label": "LIKELY_MANIPULATED",
+    "raw_score": 0.5770791823506356
+  },
+  "report_meta": {
+    "timestamp": "2025-11-14T21:14:27.165947",
+    "model_versions": {
+      "xception": "v0.1",
+      "temporal": "v0.1",
+      "lipsync": "v0.1",
+      "frequency": "v0.1"
+    }
+  }
+}

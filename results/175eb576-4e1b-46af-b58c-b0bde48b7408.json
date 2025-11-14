@@ -1,0 +1,68 @@
+{
+  "job_id": "175eb576-4e1b-46af-b58c-b0bde48b7408",
+  "video_path": "storage/uploads\\175eb576-4e1b-46af-b58c-b0bde48b7408.mp4",
+  "frames": 5,
+  "faces": 5,
+  "detections": [
+    {
+      "face_file": "face_0003.jpg",
+      "frame": 3,
+      "fake_score": 0.5625,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0001.jpg",
+      "frame": 1,
+      "fake_score": 0.5609,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0004.jpg",
+      "frame": 4,
+      "fake_score": 0.5506,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0002.jpg",
+      "frame": 2,
+      "fake_score": 0.5502,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0005.jpg",
+      "frame": 5,
+      "fake_score": 0.5499,
+      "freq_score": 0.8
+    }
+  ],
+  "aggregation": {
+    "total_faces": 5,
+    "max_score": 0.5625,
+    "mean_score": 0.5548,
+    "median_score": 0.5506,
+    "p90_score": 0.5625,
+    "count_above_0.5": 5,
+    "frequency_score": 0.8,
+    "lip_sync_score": 0.504,
+    "temporal_mean": 0.5,
+    "temporal_max": 0.5
+  },
+  "verdict": {
+    "label": "INCONCLUSIVE",
+    "confidence": 0.6039,
+    "reason": [
+      "frequency_artifact",
+      "ambiguous_scores"
+    ],
+    "final_score": 0.6366,
+    "final_label": "LIKELY_MANIPULATED",
+    "raw_score": 0.5607
+  },
+  "report_meta": {
+    "model_versions": {
+      "xception": "v0.1-placeholder"
+    },
+    "timestamp": "2025-11-14T17:03:46.018101",
+    "notes": "MVP run - ensemble not integrated yet"
+  }
+}

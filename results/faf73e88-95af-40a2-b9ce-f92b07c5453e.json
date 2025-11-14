@@ -1,0 +1,356 @@
+{
+  "job_id": "faf73e88-95af-40a2-b9ce-f92b07c5453e",
+  "video_path": "storage/uploads\\faf73e88-95af-40a2-b9ce-f92b07c5453e.mp4",
+  "frames": 5,
+  "faces": 5,
+  "detections": [
+    {
+      "face_file": "face_0001.jpg",
+      "frame": 1,
+      "fake_score": 0.554,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0003.jpg",
+      "frame": 3,
+      "fake_score": 0.5507,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0004.jpg",
+      "frame": 4,
+      "fake_score": 0.547,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0005.jpg",
+      "frame": 5,
+      "fake_score": 0.547,
+      "freq_score": 0.8
+    },
+    {
+      "face_file": "face_0002.jpg",
+      "frame": 2,
+      "fake_score": 0.545,
+      "freq_score": 0.8
+    }
+  ],
+  "aggregation": {
+    "total_faces": 5,
+    "max_score": 0.554,
+    "mean_score": 0.54874,
+    "median_score": 0.547,
+    "p90_score": 0.545,
+    "count_above_0.5": 5,
+    "frequency_score": 0.8,
+    "lip_sync_score": 0.495476222038269,
+    "temporal_mean": 0.5,
+    "temporal_max": 0.5
+  },
+  "verdict": {
+    "label": "LIKELY_MANIPULATED",
+    "confidence": 0.75,
+    "reason": [
+      "multiple_suspicious_faces"
+    ],
+    "final_score": 0.5574240732011541,
+    "final_label": "LIKELY_MANIPULATED",
+    "raw_score": 0.5576785666942596
+  },
+  "report_meta": {
+    "timestamp": "2025-11-14T21:25:32.001317",
+    "model_versions": {
+      "xception": "v0.1",
+      "temporal": "v0.1",
+      "lipsync": "v0.1",
+      "frequency": "v0.1"
+    }
+  },
+  "abnormalities": {
+    "summary": {
+      "total_abnormalities": 9,
+      "high_severity_count": 5,
+      "medium_severity_count": 4,
+      "artifact_types_detected": [
+        "texture_anomaly",
+        "eye_artifacts"
+      ],
+      "artifact_counts": {
+        "texture_anomaly": 4,
+        "eye_artifacts": 5
+      }
+    },
+    "spatial_artifacts": [
+      {
+        "type": "texture_anomaly",
+        "severity": "medium",
+        "description": "Detected unnatural skin texture patterns (score: 0.51). Overly smooth or inconsistent texture suggests GAN generation artifacts.",
+        "location": "skin_region",
+        "confidence": 0.5144280791282654,
+        "frame": 1
+      },
+      {
+        "type": "eye_artifacts",
+        "severity": "high",
+        "description": "Detected anomalies in eye region (score: 0.88). Unnatural eye shape, reflections, or alignment issues detected.",
+        "location": "eye_region",
+        "confidence": 0.878822358128289,
+        "frame": 1
+      },
+      {
+        "type": "texture_anomaly",
+        "severity": "medium",
+        "description": "Detected unnatural skin texture patterns (score: 0.52). Overly smooth or inconsistent texture suggests GAN generation artifacts.",
+        "location": "skin_region",
+        "confidence": 0.5166379809379578,
+        "frame": 2
+      },
+      {
+        "type": "eye_artifacts",
+        "severity": "high",
+        "description": "Detected anomalies in eye region (score: 0.88). Unnatural eye shape, reflections, or alignment issues detected.",
+        "location": "eye_region",
+        "confidence": 0.877842265795207,
+        "frame": 2
+      },
+      {
+        "type": "texture_anomaly",
+        "severity": "medium",
+        "description": "Detected unnatural skin texture patterns (score: 0.50). Overly smooth or inconsistent texture suggests GAN generation artifacts.",
+        "location": "skin_region",
+        "confidence": 0.500213086605072,
+        "frame": 3
+      },
+      {
+        "type": "eye_artifacts",
+        "severity": "high",
+        "description": "Detected anomalies in eye region (score: 1.00). Unnatural eye shape, reflections, or alignment issues detected.",
+        "location": "eye_region",
+        "confidence": 1.0,
+        "frame": 3
+      },
+      {
+        "type": "eye_artifacts",
+        "severity": "high",
+        "description": "Detected anomalies in eye region (score: 0.79). Unnatural eye shape, reflections, or alignment issues detected.",
+        "location": "eye_region",
+        "confidence": 0.787037037037037,
+        "frame": 4
+      },
+      {
+        "type": "texture_anomaly",
+        "severity": "medium",
+        "description": "Detected unnatural skin texture patterns (score: 0.52). Overly smooth or inconsistent texture suggests GAN generation artifacts.",
+        "location": "skin_region",
+        "confidence": 0.5238841772079468,
+        "frame": 5
+      },
+      {
+        "type": "eye_artifacts",
+        "severity": "high",
+        "description": "Detected anomalies in eye region (score: 0.80). Unnatural eye shape, reflections, or alignment issues detected.",
+        "location": "eye_region",
+        "confidence": 0.80495280995281,
+        "frame": 5
+      }
+    ],
+    "temporal_abnormalities": [],
+    "audio_visual_abnormalities": [
+      {
+        "type": "moderate_lip_sync_mismatch",
+        "severity": "medium",
+        "description": "Moderate lip-sync mismatch detected (score: 0.50). Some inconsistencies between lip movements and audio.",
+        "confidence": 0.20452377796173093
+      }
+    ],
+    "detailed_findings": {
+      "spatial": [
+        {
+          "type": "texture_anomaly",
+          "severity": "medium",
+          "description": "Detected unnatural skin texture patterns (score: 0.51). Overly smooth or inconsistent texture suggests GAN generation artifacts.",
+          "location": "skin_region",
+          "confidence": 0.5144280791282654,
+          "frame": 1
+        },
+        {
+          "type": "eye_artifacts",
+          "severity": "high",
+          "description": "Detected anomalies in eye region (score: 0.88). Unnatural eye shape, reflections, or alignment issues detected.",
+          "location": "eye_region",
+          "confidence": 0.878822358128289,
+          "frame": 1
+        },
+        {
+          "type": "texture_anomaly",
+          "severity": "medium",
+          "description": "Detected unnatural skin texture patterns (score: 0.52). Overly smooth or inconsistent texture suggests GAN generation artifacts.",
+          "location": "skin_region",
+          "confidence": 0.5166379809379578,
+          "frame": 2
+        },
+        {
+          "type": "eye_artifacts",
+          "severity": "high",
+          "description": "Detected anomalies in eye region (score: 0.88). Unnatural eye shape, reflections, or alignment issues detected.",
+          "location": "eye_region",
+          "confidence": 0.877842265795207,
+          "frame": 2
+        },
+        {
+          "type": "texture_anomaly",
+          "severity": "medium",
+          "description": "Detected unnatural skin texture patterns (score: 0.50). Overly smooth or inconsistent texture suggests GAN generation artifacts.",
+          "location": "skin_region",
+          "confidence": 0.500213086605072,
+          "frame": 3
+        },
+        {
+          "type": "eye_artifacts",
+          "severity": "high",
+          "description": "Detected anomalies in eye region (score: 1.00). Unnatural eye shape, reflections, or alignment issues detected.",
+          "location": "eye_region",
+          "confidence": 1.0,
+          "frame": 3
+        },
+        {
+          "type": "eye_artifacts",
+          "severity": "high",
+          "description": "Detected anomalies in eye region (score: 0.79). Unnatural eye shape, reflections, or alignment issues detected.",
+          "location": "eye_region",
+          "confidence": 0.787037037037037,
+          "frame": 4
+        },
+        {
+          "type": "texture_anomaly",
+          "severity": "medium",
+          "description": "Detected unnatural skin texture patterns (score: 0.52). Overly smooth or inconsistent texture suggests GAN generation artifacts.",
+          "location": "skin_region",
+          "confidence": 0.5238841772079468,
+          "frame": 5
+        },
+        {
+          "type": "eye_artifacts",
+          "severity": "high",
+          "description": "Detected anomalies in eye region (score: 0.80). Unnatural eye shape, reflections, or alignment issues detected.",
+          "location": "eye_region",
+          "confidence": 0.80495280995281,
+          "frame": 5
+        }
+      ],
+      "temporal": [],
+      "audio_visual": [
+        {
+          "type": "moderate_lip_sync_mismatch",
+          "severity": "medium",
+          "description": "Moderate lip-sync mismatch detected (score: 0.50). Some inconsistencies between lip movements and audio.",
+          "confidence": 0.20452377796173093
+        }
+      ]
+    }
+  },
+  "detected_techniques": {
+    "primary_technique": {
+      "technique_id": "gan_based",
+      "name": "GAN-based Face Swap",
+      "confidence": 0.8666666666666667,
+      "description": "Generative Adversarial Network (GAN) based face swapping technique"
+    },
+    "all_techniques": [
+      {
+        "technique_id": "gan_based",
+        "name": "GAN-based Face Swap",
+        "description": "Generative Adversarial Network (GAN) based face swapping technique",
+        "confidence": 0.8666666666666667,
+        "matching_indicators": [
+          "texture_anomaly",
+          "high_frequency_artifacts"
+        ],
+        "mathematical_basis": "Uses generator-discriminator architecture. Generator learns mapping G: X→Y, discriminator D distinguishes real from fake. Training objective: min_G max_D V(D,G) = E[log D(x)] + E[log(1-D(G(z)))]. Common implementations: StyleGAN, StarGAN, FaceSwap-GAN.",
+        "typical_artifacts": [
+          "Blur artifacts at face boundaries due to generator's learned blending",
+          "Texture inconsistencies from adversarial training",
+          "High-frequency artifacts in frequency domain analysis"
+        ]
+      },
+      {
+        "technique_id": "first_order_motion",
+        "name": "First-Order Motion Model",
+        "description": "First-order motion model for face reenactment",
+        "confidence": 0.6666666666666666,
+        "matching_indicators": [
+          "moderate_lip_sync_mismatch",
+          "eye_artifacts"
+        ],
+        "mathematical_basis": "Uses keypoint detection and motion transfer. Keypoints: K = {k₁, k₂, ..., kₙ}. Motion: M = K_driver - K_source. Warping: W(x, M) applies motion to source. Generator: G(x_source, M) = W(x_source, M) + residual. Common implementations: FOMM, Face2Face.",
+        "typical_artifacts": [
+          "Temporal inconsistencies from keypoint tracking errors",
+          "Eye region artifacts from motion transfer",
+          "Moderate lip-sync issues"
+        ]
+      },
+      {
+        "technique_id": "neural_texture",
+        "name": "Neural Texture Synthesis",
+        "description": "Neural texture synthesis for face manipulation",
+        "confidence": 0.6666666666666666,
+        "matching_indicators": [
+          "texture_anomaly",
+          "high_frequency_artifacts"
+        ],
+        "mathematical_basis": "Uses neural texture fields: T(x,y) = f_θ(x,y). Texture mapping: I = T(UV_map). Optimization: min_θ ||I_target - T(UV_target)||². Common implementations: NeuralTextures, PIFu.",
+        "typical_artifacts": [
+          "Texture anomalies from neural synthesis",
+          "Blur from texture interpolation",
+          "High-frequency artifacts in synthesized regions"
+        ]
+      },
+      {
+        "technique_id": "face2face",
+        "name": "Face2Face",
+        "description": "Real-time face reenactment using expression transfer",
+        "confidence": 0.3333333333333333,
+        "matching_indicators": [
+          "eye_artifacts"
+        ],
+        "mathematical_basis": "Uses 3D face model and expression transfer. 3D model: M = (V, F) where V are vertices, F are faces. Expression: E = {e₁, e₂, ..., eₙ}. Transfer: M_target = M_source + ΔE. Rendering: I = R(M_target, P, L). Common implementations: Face2Face, FaceForensics.",
+        "typical_artifacts": [
+          "Severe lip-sync mismatches from expression transfer",
+          "Temporal flickering from frame-by-frame processing",
+          "Eye region artifacts from 3D model fitting"
+        ]
+      },
+      {
+        "technique_id": "deepfacelab",
+        "name": "DeepFaceLab",
+        "description": "Autoencoder-based face swap with advanced training",
+        "confidence": 0.25,
+        "matching_indicators": [
+          "texture_anomaly"
+        ],
+        "mathematical_basis": "Uses SAE (Stacked Autoencoder) architecture. Multiple encoders: E₁, E₂, ..., Eₙ. Progressive training with increasing resolution. Loss: L = L_recon + λ₁·L_perceptual + λ₂·L_adversarial. Common implementations: DeepFaceLab, FaceSwap.",
+        "typical_artifacts": [
+          "Color inconsistencies from encoder limitations",
+          "Edge artifacts at boundaries",
+          "Texture anomalies in reconstructed regions"
+        ]
+      }
+    ],
+    "analysis": {
+      "total_techniques_identified": 5,
+      "highest_confidence": 0.8666666666666667,
+      "artifact_evidence": [
+        "moderate_lip_sync_mismatch",
+        "texture_anomaly",
+        "eye_artifacts",
+        "high_frequency_artifacts"
+      ]
+    },
+    "explanation": "Based on the analysis of detected artifacts, the video most likely uses **GAN-based Face Swap** (confidence: 86.7%). \n\n**Key Evidence:**\n- Texture Anomaly\n- High Frequency Artifacts\n\n**Mathematical Basis:**\nUses generator-discriminator architecture. Generator learns mapping G: X→Y, discriminator D distinguishes real from fake. Training objective: min_G max_D V(D,G) = E[log D(x)] + E[log(1-D(G(z)))]. Common implementations: StyleGAN, StarGAN, FaceSwap-GAN.",
+    "methodology": {
+      "approach": "Pattern-based technique identification using artifact signatures",
+      "indicators_analyzed": 2,
+      "techniques_considered": 6
+    }
+  }
+}

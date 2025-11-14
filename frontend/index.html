@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepfake Detection System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            background: #f8f9ff;
+            transition: all 0.3s;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #f0f2ff;
+        }
+
+        .upload-area.dragover {
+            border-color: #764ba2;
+            background: #e8ebff;
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            color: #667eea;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .upload-hint {
+            color: #999;
+            font-size: 14px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .results {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 15px;
+        }
+
+        .result-section {
+            margin-bottom: 20px;
+        }
+
+        .result-title {
+            color: #667eea;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .result-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .result-value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .verdict {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .verdict.manipulated {
+            background: #fee;
+            color: #c33;
+        }
+
+        .verdict.authentic {
+            background: #efe;
+            color: #3c3;
+        }
+
+        .verdict.inconclusive {
+            background: #ffe;
+            color: #cc3;
+        }
+
+        .error {
+            display: none;
+            padding: 15px;
+            background: #fee;
+            color: #c33;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .loading {
+            text-align: center;
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .file-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Deepfake Detection System</h1>
+        <p class="subtitle">Upload a video to analyze for deepfake manipulation</p>
+
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📹</div>
+            <div class="upload-text">Click to upload or drag & drop</div>
+            <div class="upload-hint">Supports MP4, AVI, MOV, and other video formats</div>
+            <input type="file" id="fileInput" accept="video/*">
+        </div>
+
+        <div class="file-info" id="fileInfo" style="display: none;"></div>
+
+        <button class="btn" id="uploadBtn" disabled>Upload & Analyze</button>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill">0%</div>
+            </div>
+            <div class="loading" id="loadingText">Processing video...</div>
+        </div>
+
+        <div class="error" id="errorMsg"></div>
+
+        <div class="results" id="results">
+            <div class="result-section">
+                <div class="result-title">📊 Detection Results</div>
+                <div class="result-item">
+                    <span class="result-label">Video:</span>
+                    <span class="result-value" id="videoPath">-</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Frames Extracted:</span>
+                    <span class="result-value" id="framesCount">-</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Faces Detected:</span>
+                    <span class="result-value" id="facesCount">-</span>
+                </div>
+            </div>
+
+            <div class="result-section">
+                <div class="result-title">🎯 Detector Scores</div>
+                <div class="result-item">
+                    <span class="result-label">CNN Max Score:</span>
+                    <span class="result-value" id="cnnMax">-</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Temporal Score:</span>
+                    <span class="result-value" id="temporalMax">-</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Lip Sync Score:</span>
+                    <span class="result-value" id="lipSync">-</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Frequency Score:</span>
+                    <span class="result-value" id="frequency">-</span>
+                </div>
+            </div>
+
+            <div class="result-section">
+                <div class="result-title">⚖️ Final Verdict</div>
+                <div class="result-item">
+                    <span class="result-label">Final Score:</span>
+                    <span class="result-value" id="finalScore">-</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Confidence:</span>
+                    <span class="result-value" id="confidence">-</span>
+                </div>
+                <div class="verdict" id="verdict">-</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+        
+        // Check backend connection on page load
+        window.addEventListener('load', () => {
+            checkBackendConnection();
+        });
+        
+        async function checkBackendConnection() {
+            try {
+                const response = await fetch(`${API_URL}/`, { 
+                    method: 'GET',
+                    timeout: 3000
+                });
+                if (response.ok) {
+                    console.log('[OK] Backend server is running');
+                } else {
+                    console.warn('[WARNING] Backend server responded with error');
+                }
+            } catch (error) {
+                console.error('[ERROR] Backend server is not running');
+                console.error('Please start the backend server:');
+                console.error('  Windows: start.bat');
+                console.error('  Linux/Mac: ./start.sh');
+                console.error('  Or: python start_server.py');
+                // Show warning in UI
+                const warningDiv = document.createElement('div');
+                warningDiv.className = 'error';
+                warningDiv.style.display = 'block';
+                warningDiv.style.marginTop = '10px';
+                warningDiv.innerHTML = '⚠️ <strong>Backend server not running!</strong><br>' +
+                    'Please start the backend server first:<br>' +
+                    '<code>python start_server.py</code> or <code>start.bat</code>';
+                document.querySelector('.container').insertBefore(warningDiv, document.querySelector('.upload-area'));
+            }
+        }
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const fileInfo = document.getElementById('fileInfo');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const loadingText = document.getElementById('loadingText');
+        const errorMsg = document.getElementById('errorMsg');
+        const results = document.getElementById('results');
+
+        let selectedFile = null;
+
+        // Upload area click
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        // File selection
+        fileInput.addEventListener('change', (e) => {
+            selectedFile = e.target.files[0];
+            if (selectedFile) {
+                fileInfo.style.display = 'block';
+                fileInfo.textContent = `Selected: ${selectedFile.name} (${(selectedFile.size / 1024 / 1024).toFixed(2)} MB)`;
+                uploadBtn.disabled = false;
+            }
+        });
+
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                selectedFile = files[0];
+                fileInput.files = files;
+                fileInfo.style.display = 'block';
+                fileInfo.textContent = `Selected: ${selectedFile.name} (${(selectedFile.size / 1024 / 1024).toFixed(2)} MB)`;
+                uploadBtn.disabled = false;
+            }
+        });
+
+        // Upload button
+        uploadBtn.addEventListener('click', async () => {
+            if (!selectedFile) return;
+
+            // Reset UI
+            errorMsg.style.display = 'none';
+            results.style.display = 'none';
+            uploadBtn.disabled = true;
+            progressContainer.style.display = 'block';
+            progressFill.style.width = '0%';
+            progressFill.textContent = '0%';
+            loadingText.textContent = 'Uploading video...';
+
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+
+            // Declare progressInterval in outer scope so it can be cleared
+            let progressInterval = null;
+
+            try {
+                const xhr = new XMLHttpRequest();
+
+                // Upload progress
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        const percent = Math.round((e.loaded / e.total) * 50); // 50% for upload
+                        progressFill.style.width = percent + '%';
+                        progressFill.textContent = percent + '%';
+                    }
+                });
+
+                xhr.addEventListener('load', () => {
+                    clearInterval(progressInterval);
+                    if (xhr.status === 200) {
+                        progressFill.style.width = '100%';
+                        progressFill.textContent = '100%';
+                        loadingText.textContent = 'Analysis complete!';
+                        
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            displayResults(response);
+                        } catch (e) {
+                            showError('Error parsing server response: ' + e.message);
+                            uploadBtn.disabled = false;
+                        }
+                    } else {
+                        let errorMsg = 'Upload failed';
+                        try {
+                            const errorResponse = JSON.parse(xhr.responseText);
+                            errorMsg = errorResponse.detail || errorResponse.message || errorMsg;
+                        } catch (e) {
+                            errorMsg = xhr.responseText || `Server returned status ${xhr.status}`;
+                        }
+                        showError(errorMsg);
+                        uploadBtn.disabled = false;
+                        progressContainer.style.display = 'none';
+                    }
+                });
+
+                xhr.addEventListener('error', () => {
+                    clearInterval(progressInterval);
+                    showError('Network error. Make sure the backend server is running on http://localhost:8000');
+                    uploadBtn.disabled = false;
+                    progressContainer.style.display = 'none';
+                });
+
+                xhr.addEventListener('timeout', () => {
+                    clearInterval(progressInterval);
+                    showError('Request timeout. The server may be taking too long to respond.');
+                    uploadBtn.disabled = false;
+                    progressContainer.style.display = 'none';
+                });
+
+                // Set timeout (5 minutes for large videos)
+                xhr.timeout = 300000; // 5 minutes
+
+                xhr.open('POST', `${API_URL}/upload-video`);
+                xhr.send(formData);
+
+                // Simulate processing progress (only if upload succeeds)
+                let progress = 50;
+                progressInterval = setInterval(() => {
+                    // Check if request is still active
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        clearInterval(progressInterval);
+                        return;
+                    }
+                    progress += 2;
+                    if (progress < 95) {
+                        progressFill.style.width = progress + '%';
+                        progressFill.textContent = progress + '%';
+                        loadingText.textContent = 'Processing video...';
+                    } else {
+                        clearInterval(progressInterval);
+                    }
+                }, 500);
+
+            } catch (error) {
+                clearInterval(progressInterval);
+                showError(error.message);
+                uploadBtn.disabled = false;
+                progressContainer.style.display = 'none';
+            }
+        });
+
+        function displayResults(data) {
+            // Basic info
+            document.getElementById('videoPath').textContent = data.video || '-';
+            document.getElementById('framesCount').textContent = data.frames || 0;
+            document.getElementById('facesCount').textContent = data.faces || 0;
+
+            // Detector scores
+            const agg = data.aggregation || {};
+            document.getElementById('cnnMax').textContent = (agg.max_score || 0).toFixed(4);
+            document.getElementById('temporalMax').textContent = (agg.temporal_max || 'N/A');
+            document.getElementById('lipSync').textContent = (agg.lip_sync_score || 'N/A');
+            document.getElementById('frequency').textContent = (agg.frequency_score || 'N/A');
+
+            // Final verdict
+            const verdict = data.verdict || {};
+            document.getElementById('finalScore').textContent = (verdict.final_score || verdict.confidence || 0).toFixed(4);
+            document.getElementById('confidence').textContent = (verdict.confidence || 0).toFixed(4);
+
+            // Verdict label
+            const verdictLabel = verdict.final_label || verdict.label || 'INCONCLUSIVE';
+            const verdictEl = document.getElementById('verdict');
+            verdictEl.textContent = verdictLabel;
+            verdictEl.className = 'verdict';
+            
+            if (verdictLabel === 'LIKELY_MANIPULATED') {
+                verdictEl.classList.add('manipulated');
+            } else if (verdictLabel === 'LIKELY_AUTHENTIC') {
+                verdictEl.classList.add('authentic');
+            } else {
+                verdictEl.classList.add('inconclusive');
+            }
+
+            results.style.display = 'block';
+            uploadBtn.disabled = false;
+            progressContainer.style.display = 'none';
+        }
+
+        function showError(message) {
+            errorMsg.textContent = 'Error: ' + message;
+            errorMsg.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
+
