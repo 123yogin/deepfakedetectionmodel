@@ -1,0 +1,50 @@
+# Storage directory - ignore all contents but keep .gitkeep
+storage/*
+!storage/.gitkeep
+!storage/__init__.py
+
+# Results directory - ignore all contents but keep .gitkeep
+results/*
+!results/.gitkeep
+!results/__init__.py
+
+# SQLite database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Model weights (if large)
+models/weights/*
+!models/weights/.gitkeep
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
