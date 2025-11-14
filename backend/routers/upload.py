@@ -310,12 +310,22 @@ async def upload_video(file: UploadFile = File(...)) -> Dict[str, Any]:
         # Update with ensemble verdict (override the decide_verdict result)
         result["verdict"] = verdict_result
         
-        # Save updated result with ensemble verdict to JSON
+        # Save updated result with ensemble verdict to SQLite database
+        from backend.utils.database import db
+        try:
+            db.save_result(result)
+            print(f"[INFO] Result saved to database for job_id: {job_id}")
+        except Exception as db_error:
+            print(f"[WARNING] Failed to save to database: {db_error}")
+            import traceback
+            traceback.print_exc()
+            # Fallback to JSON file saving if database fails
         result_file = Path(results_dir) / f"{job_id}.json"
         result_file.parent.mkdir(parents=True, exist_ok=True)
         try:
             with open(result_file, 'w', encoding='utf-8') as f:
                 json.dump(result, f, indent=2, ensure_ascii=False)
+                print(f"[INFO] Result saved to JSON file as fallback for job_id: {job_id}")
         except OSError as e:
             if e.errno == 22:
                 print(f"[WARNING] Could not save result file due to path length. Using shorter path.")
